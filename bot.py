@@ -1,7 +1,7 @@
 import os
 import logging
 from aiogram import Bot, Dispatcher, types
-from aiogram.utils import executor
+import asyncio
 from dotenv import load_dotenv
 
 # Загружаем переменные окружения
@@ -20,4 +20,7 @@ async def start(message: types.Message):
     await message.answer("Привет! Я Telegram-бот!")
 
 if __name__ == "__main__":
-    executor.start_polling(dp, skip_updates=True)
+  async def main():
+    await dp.start_polling(bot)
+
+asyncio.run(main())
