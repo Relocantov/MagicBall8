@@ -11,6 +11,17 @@ TOKEN = os.getenv("TOKEN")
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Загружаем .env файл
+
+TOKEN = os.getenv("TOKEN")
+
+if TOKEN is None:
+    raise ValueError("TOKEN не загружен! Проверь переменные окружения.")
+
+bot = Bot(token=TOKEN)
 
 # Создание бота
 bot = Bot(token=TOKEN)
