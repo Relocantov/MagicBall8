@@ -1,7 +1,8 @@
 import os
 import logging
 import asyncio
-from aiogram import Bot, Dispatcher
+from aiogram import Bot, Dispatcher, types
+from aiogram.filters import Text
 from dotenv import load_dotenv
 from handlers import router  # Импортируем обработчик из handlers.py
 
@@ -9,44 +10,28 @@ from handlers import router  # Импортируем обработчик из 
 load_dotenv()
 TOKEN = os.getenv("TOKEN")
 
-# Настройка логирования
-logging.basicConfig(level=logging.INFO)
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Загружаем .env файл
-
-TOKEN = os.getenv("TOKEN")
-
-if TOKEN is None:
+# Проверяем, загружен ли токен
+if not TOKEN:
     raise ValueError("TOKEN не загружен! Проверь переменные окружения.")
 
-bot = Bot(token=TOKEN)
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
 
-# Создание бота
+# Создаем бота и диспетчер
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 
 # Подключаем роутеры
 dp.include_router(router)
 
-async def main():
-    await dp.start_polling(bot)
-
-if __name__ == "__main__":
-    asyncio.run(main())
-    import os
-from aiogram import Bot, Dispatcher
-import asyncio
-
-TOKEN = os.getenv("BOT_TOKEN")
-bot = Bot(token=TOKEN)
-dp = Dispatcher()
+# Добавляем обработчик команды "Привет!"
+@dp.message(Text("Привет!"))
+async def hello_message(message: types.Message):
+    await message.answer("Привет! 😊")
 
 async def main():
     print("Бот запущен!")
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
-    port = os.getenv("PORT", 8080)  # Render требует PORT
     asyncio.run(main())
