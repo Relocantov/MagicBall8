@@ -2,7 +2,7 @@ import os
 import logging
 import asyncio
 from aiogram import Bot, Dispatcher, types
-from aiogram.filters import Text
+from aiogram import F
 from dotenv import load_dotenv
 from handlers import router  # Импортируем обработчик из handlers.py
 
@@ -25,7 +25,7 @@ dp = Dispatcher()
 dp.include_router(router)
 
 # Добавляем обработчик команды "Привет!"
-@dp.message(Text("Привет!"))
+@dp.message(F.text == "Привет!")
 async def hello_message(message: types.Message):
     await message.answer("Привет! 😊")
 
